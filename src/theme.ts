@@ -1,6 +1,6 @@
-import { DefaultTheme } from 'styled-components'
+import { DefaultTheme, css } from 'styled-components'
 
-const theme: DefaultTheme = {
+export const theme: DefaultTheme = {
   borderRadius: '5px',
 
   colors: {
@@ -9,4 +9,10 @@ const theme: DefaultTheme = {
   }
 }
 
-export { theme }
+export const fullScreen = css`
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+`

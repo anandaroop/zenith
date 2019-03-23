@@ -8,7 +8,7 @@ class App extends React.Component {
     return (
       <ThemeProvider theme={theme}>
         <Main>
-          <AnimatedMap speed={5000} />
+          <AnimatedMap duration={15000} />
         </Main>
       </ThemeProvider>
     )

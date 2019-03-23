@@ -1,12 +1,15 @@
 import * as React from 'react'
 import cities from './cities.json'
+import { CityTitle } from './CityTitle'
 import { CityMap } from './CityMap'
 
 interface Props {
-  speed: number
+  /** how many milliseconds to spend in each city  */
+  duration: number
 }
 
 interface State {
+  /** index of a city in the cities array */
   currentIndex: number
 }
 
@@ -24,11 +27,19 @@ export class AnimatedMap extends React.Component<Props, State> {
   }
 
   componentDidMount() {
-    setInterval(this.advance, this.props.speed)
+    setInterval(this.advance, this.props.duration)
   }
 
   render() {
     const { currentIndex } = this.state
-    return <CityMap index={currentIndex} />
+    const { duration } = this.props
+    const props = { index: currentIndex, duration }
+
+    return (
+      <React.Fragment>
+        <CityTitle {...props} />
+        <CityMap {...props} />
+      </React.Fragment>
+    )
   }
 }
