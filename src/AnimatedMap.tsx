@@ -1,5 +1,6 @@
 import * as React from 'react'
 import cities from './cities.json'
+import { CityMap } from './CityMap'
 
 interface Props {
   speed: number
@@ -28,6 +29,6 @@ export class AnimatedMap extends React.Component<Props, State> {
 
   render() {
     const { currentIndex } = this.state
-    return <div>Hi {cities[currentIndex].name}</div>
+    return <CityMap index={currentIndex} />
   }
 }
