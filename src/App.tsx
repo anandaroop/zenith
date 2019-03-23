@@ -1,12 +1,15 @@
 import * as React from 'react'
 import styled, { ThemeProvider } from 'styled-components'
 import { theme } from './theme'
+import { AnimatedMap } from './AnimatedMap'
 
 class App extends React.Component {
   render() {
     return (
       <ThemeProvider theme={theme}>
-        <Main>Hello</Main>
+        <Main>
+          <AnimatedMap speed={2000} />
+        </Main>
       </ThemeProvider>
     )
   }
