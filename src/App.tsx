@@ -1,8 +1,8 @@
-import React, { Component } from 'react'
+import * as React from 'react'
 import styled, { ThemeProvider } from 'styled-components'
 import { theme } from './theme'
 
-class App extends Component {
+class App extends React.Component {
   render() {
     return (
       <ThemeProvider theme={theme}>
@@ -13,7 +13,6 @@ class App extends Component {
 }
 
 const Main = styled.main`
-  background: ${props => props.theme.colors.main};
   position: absolute;
   left: 0;
   right: 0;
