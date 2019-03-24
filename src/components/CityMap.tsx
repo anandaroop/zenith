@@ -39,7 +39,7 @@ export class CityMap extends React.Component<Props> {
 
     this.map = new mapboxgl.Map({
       container: this.mapDiv.current as Element,
-      style: 'mapbox://styles/artsyit/cjrb59mjb2tsq2tqxl17pfoak',
+      style: 'mapbox://styles/artsyit/cjt3q9ph72z781gp751433es8',
       zoom: START_ZOOM
     })
 
