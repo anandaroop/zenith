@@ -37,7 +37,7 @@ export class CityTitle extends React.Component<Props, State> {
     this.titleDiv.current!.classList.add('animating')
     setTimeout(() => {
       this.titleDiv.current!.classList.remove('animating')
-    }, this.props.duration * 0.99)
+    }, this.props.duration * 0.9)
   }
 
   render() {

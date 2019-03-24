@@ -3,11 +3,8 @@ import styled, { keyframes } from 'styled-components'
 import mapboxgl from 'mapbox-gl'
 import cities from '../data/cities.json'
 import { fullScreen } from '../theme'
-import {
-  cityResults,
-  CityResponse
-} from '../lib/metaphysics'
-import { cityResultsToGeoJson } from "../lib/geojson";
+import { cityResults, CityResponse } from '../lib/metaphysics'
+import { cityResultsToGeoJson } from '../lib/geojson'
 
 interface Props {
   /** index of a city in the cities array */
@@ -17,8 +14,8 @@ interface Props {
   duration: number
 }
 
-const START_ZOOM = 13
-const END_ZOOM = 12
+const START_ZOOM = 12.5
+const END_ZOOM = 11.5
 
 export class CityMap extends React.Component<Props> {
   private mapDiv: React.RefObject<HTMLDivElement>
@@ -41,7 +38,59 @@ export class CityMap extends React.Component<Props> {
       zoom: START_ZOOM
     })
 
-    this.reset()
+    this.map.on('load', () => {
+      this.map.addSource('showsAndFairs', {
+        type: 'geojson',
+        data: { type: 'FeatureCollection', features: [] },
+        cluster: true
+        // clusterMaxZoom: 14, // Max zoom to cluster points on
+      })
+
+      // style the cluster markers
+      this.map.addLayer({
+        id: 'clusters',
+        type: 'circle',
+        source: 'showsAndFairs',
+        filter: ['has', 'point_count'],
+
+        paint: {
+          'circle-radius': ['step', ['get', 'point_count'], 15, 5, 20, 30, 30],
+          'circle-pitch-alignment': 'map'
+        }
+      })
+
+      // style the cluster counts
+      this.map.addLayer({
+        id: 'cluster-count',
+        type: 'symbol',
+        source: 'showsAndFairs',
+        filter: ['has', 'point_count'],
+        layout: {
+          'text-field': '{point_count}',
+          'text-font': ['Unica77 LL Medium'],
+          'text-size': 14
+        },
+        paint: {
+          'text-color': '#ffffff'
+        }
+      })
+
+      // style the single, un-clustered points
+      this.map.addLayer({
+        id: 'unclustered-point',
+        type: 'symbol',
+        source: 'showsAndFairs',
+        filter: ['!', ['has', 'point_count']],
+        layout: {
+          'icon-image': 'pin',
+          'icon-size': 0.75,
+          'icon-offset': [0, -20]
+        }
+      })
+
+      // setup the viewport for the first time
+      this.reset()
+    })
   }
 
   fetchData = () => {
@@ -51,7 +100,9 @@ export class CityMap extends React.Component<Props> {
 
   initializeMapFeatures = (data: CityResponse) => {
     const featureCollection = cityResultsToGeoJson(data)
-    console.log("TODO", featureCollection)
+    const source = this.map.getSource('showsAndFairs')
+    // @ts-ignore
+    if (source) source.setData(featureCollection)
   }
 
   reset = () => {
@@ -67,7 +118,7 @@ export class CityMap extends React.Component<Props> {
     this.map.setCenter([lng, lat])
     this.map.setZoom(START_ZOOM)
     this.map.setBearing(0)
-    this.map.setPitch(0)
+    this.map.setPitch(10)
   }
 
   animateViewport = () => {
@@ -75,7 +126,7 @@ export class CityMap extends React.Component<Props> {
     setTimeout(() => {
       this.map.easeTo({
         zoom: END_ZOOM,
-        bearing: 10 * Math.random() - 5,
+        bearing: 30 * Math.random() - 15,
         pitch: 50,
         duration: 0.9 * duration,
         offset: [100 * Math.random() - 50, 100 * Math.random() - 50]
@@ -87,7 +138,7 @@ export class CityMap extends React.Component<Props> {
     this.mapDiv.current!.classList.add('animating')
     setTimeout(() => {
       this.mapDiv.current!.classList.remove('animating')
-    }, this.props.duration * 0.99)
+    }, this.props.duration * 0.9)
   }
 
   componentDidMount() {
@@ -127,7 +178,7 @@ const fades = keyframes`
  75% { opacity: 1; }
  80% { opacity: 1; }
  85% { opacity: 1; }
- 90% { opacity: 1; }
+ 90% { opacity: 0; }
  95% { opacity: 0; }
 100% { opacity: 0; }
 `
