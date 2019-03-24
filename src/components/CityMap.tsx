@@ -5,6 +5,7 @@ import cities from '../data/cities.json'
 import { fullScreen } from '../theme'
 import { cityResults, CityResponse } from '../lib/metaphysics'
 import { cityResultsToGeoJson } from '../lib/geojson'
+import * as turf from '@turf/turf'
 
 interface Props {
   /** index of a city in the cities array */
@@ -22,6 +23,10 @@ export class CityMap extends React.Component<Props> {
 
   // @ts-ignore
   private map: mapboxgl.Map
+
+  /** A central point based on the distribution of live data */
+  // @ts-ignore
+  private centralTendency: [number, number]
 
   constructor(props: Props) {
     super(props)
@@ -103,33 +108,37 @@ export class CityMap extends React.Component<Props> {
     const source = this.map.getSource('showsAndFairs')
     // @ts-ignore
     if (source) source.setData(featureCollection)
+
+    // @ts-ignore
+    this.centralTendency = turf.centerOfMass(featureCollection).geometry.coordinates
   }
 
   reset = () => {
-    this.fetchData().then(json => this.initializeMapFeatures(json.data))
-    this.initializeViewport()
-    this.animateViewport()
+    this.fetchData().then(json => {
+      this.initializeMapFeatures(json.data)
+      this.initializeViewport()
+      this.animateViewport()
+    })
     this.animateFades()
   }
 
   initializeViewport = () => {
-    const { index } = this.props
-    const { lat, lng } = cities[index].coordinates
-    this.map.setCenter([lng, lat])
+    this.map.setCenter(this.centralTendency) // animate *from* the center of mass
     this.map.setZoom(START_ZOOM)
     this.map.setBearing(0)
     this.map.setPitch(10)
   }
 
   animateViewport = () => {
-    const { duration } = this.props
+    const { index, duration } = this.props
+    const { lat, lng } = cities[index].coordinates
     setTimeout(() => {
       this.map.easeTo({
+        center: [lng, lat], // animate *to* the canonical center
         zoom: END_ZOOM,
         bearing: 30 * Math.random() - 15,
         pitch: 50,
-        duration: 0.9 * duration,
-        offset: [100 * Math.random() - 50, 100 * Math.random() - 50]
+        duration: 0.9 * duration
       })
     }, 0.1 * duration)
   }
