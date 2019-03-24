@@ -6,6 +6,14 @@ export const theme: DefaultTheme = {
   colors: {
     main: 'cyan',
     secondary: 'magenta'
+  },
+
+  fonts: {
+    serif: '"Adobe Garamond W08", serif',
+    sans: {
+      regular: '"Unica77LLWebRegular", sans-serif',
+      medium: '"Unica77LLWebMedium", sans-serif'
+    }
   }
 }
 

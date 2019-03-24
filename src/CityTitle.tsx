@@ -1,7 +1,7 @@
 import * as React from 'react'
 import styled, { keyframes } from 'styled-components'
 import cities from './cities.json'
-import { fullScreen } from './theme'
+import { fullScreen, theme } from './theme'
 
 interface Props {
   /** index of a city in the cities array */
@@ -77,11 +77,10 @@ const Title = styled.div<TitleDivProps>`
   justify-content: center;
   align-items: center;
 
-  font-family: sans-serif;
+  font-family: ${({ theme }) => theme.fonts.serif};
   font-size: 4em;
-  font-weight: 100;
 
-  background: hsla(0, 0%, 100%, 1);
+  background: hsla(0, 0%, 95%, 1);
   opacity: 0;
 
   &.animating {

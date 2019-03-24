@@ -9,5 +9,13 @@ declare module 'styled-components' {
       main: string
       secondary: string
     }
+
+    fonts: {
+      sans: {
+        regular: string,
+        medium: string
+      }
+      serif: string
+    }
   }
 }
