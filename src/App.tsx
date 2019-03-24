@@ -8,7 +8,7 @@ class App extends React.Component {
     return (
       <ThemeProvider theme={theme}>
         <Main>
-          <AnimatedMap duration={15000} />
+          <AnimatedMap duration={20000} />
         </Main>
       </ThemeProvider>
     )
@@ -21,6 +21,7 @@ const Main = styled.main`
   right: 0;
   top: 0;
   bottom: 0;
+  background: hsl(0, 0%, 95%);
 `
 
 export default App

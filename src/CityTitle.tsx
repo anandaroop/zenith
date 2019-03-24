@@ -37,7 +37,7 @@ export class CityTitle extends React.Component<Props, State> {
     this.titleDiv.current!.classList.add('animating')
     setTimeout(() => {
       this.titleDiv.current!.classList.remove('animating')
-    }, this.props.duration * 0.9)
+    }, this.props.duration * 0.99)
   }
 
   render() {
@@ -53,15 +53,25 @@ export class CityTitle extends React.Component<Props, State> {
 
 const fades = keyframes`
   0% { opacity: 0; }
+  5% { opacity: 1; }
  10% { opacity: 1; }
- 20% { opacity: 1; }
+ 15% { opacity: 1; }
+ 20% { opacity: 0; }
+ 25% { opacity: 0; }
  30% { opacity: 0; }
+ 35% { opacity: 0; }
  40% { opacity: 0; }
+ 45% { opacity: 0; }
  50% { opacity: 0; }
+ 55% { opacity: 0; }
  60% { opacity: 0; }
+ 65% { opacity: 0; }
  70% { opacity: 0; }
+ 75% { opacity: 0; }
  80% { opacity: 0; }
+ 85% { opacity: 0; }
  90% { opacity: 0; }
+ 95% { opacity: 0; }
 100% { opacity: 0; }
 `
 
