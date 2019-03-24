@@ -3,6 +3,11 @@ import styled, { keyframes } from 'styled-components'
 import mapboxgl from 'mapbox-gl'
 import cities from '../data/cities.json'
 import { fullScreen } from '../theme'
+import {
+  cityResults,
+  CityResponse
+} from '../lib/metaphysics'
+import { cityResultsToGeoJson } from "../lib/geojson";
 
 interface Props {
   /** index of a city in the cities array */
@@ -39,11 +44,18 @@ export class CityMap extends React.Component<Props> {
     this.reset()
   }
 
-  componentDidMount() {
-    this.setup()
+  fetchData = () => {
+    const city = cities[this.props.index]
+    return cityResults(city.slug)
+  }
+
+  initializeMapFeatures = (data: CityResponse) => {
+    const featureCollection = cityResultsToGeoJson(data)
+    console.log("TODO", featureCollection)
   }
 
   reset = () => {
+    this.fetchData().then(json => this.initializeMapFeatures(json.data))
     this.initializeViewport()
     this.animateViewport()
     this.animateFades()
@@ -76,6 +88,10 @@ export class CityMap extends React.Component<Props> {
     setTimeout(() => {
       this.mapDiv.current!.classList.remove('animating')
     }, this.props.duration * 0.99)
+  }
+
+  componentDidMount() {
+    this.setup()
   }
 
   componentDidUpdate(prevProps: Props) {
