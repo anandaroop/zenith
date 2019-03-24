@@ -1,9 +1,8 @@
 import React from 'react'
 import styled, { keyframes } from 'styled-components'
 import mapboxgl from 'mapbox-gl'
-import cities from './cities.json'
-import secrets from './secrets.json'
-import { fullScreen } from './theme'
+import cities from '../data/cities.json'
+import { fullScreen } from '../theme'
 
 interface Props {
   /** index of a city in the cities array */
@@ -29,7 +28,7 @@ export class CityMap extends React.Component<Props> {
 
   setup = () => {
     // @ts-ignore
-    mapboxgl.accessToken = secrets.MAPBOX_ACCESS_TOKEN
+    mapboxgl.accessToken = "pk.eyJ1IjoiYXJ0c3lpdCIsImEiOiJjanRtNHppaXUwaGpwNGFwbGFnNWFkNm1zIn0.bJGYSHlzlUhs3xfQI2hRCg"
 
     this.map = new mapboxgl.Map({
       container: this.mapDiv.current as Element,
@@ -37,16 +36,20 @@ export class CityMap extends React.Component<Props> {
       zoom: START_ZOOM
     })
 
-    this.recenter()
-    this.animate()
-    this.fadeOut()
+    this.reset()
   }
 
   componentDidMount() {
     this.setup()
   }
 
-  recenter = () => {
+  reset = () => {
+    this.initializeViewport()
+    this.animateViewport()
+    this.animateFades()
+  }
+
+  initializeViewport = () => {
     const { index } = this.props
     const { lat, lng } = cities[index].coordinates
     this.map.setCenter([lng, lat])
@@ -55,7 +58,7 @@ export class CityMap extends React.Component<Props> {
     this.map.setPitch(0)
   }
 
-  animate = () => {
+  animateViewport = () => {
     const { duration } = this.props
     setTimeout(() => {
       this.map.easeTo({
@@ -68,7 +71,7 @@ export class CityMap extends React.Component<Props> {
     }, 0.1 * duration)
   }
 
-  fadeOut = () => {
+  animateFades = () => {
     this.mapDiv.current!.classList.add('animating')
     setTimeout(() => {
       this.mapDiv.current!.classList.remove('animating')
@@ -79,9 +82,7 @@ export class CityMap extends React.Component<Props> {
     const { index } = this.props
     const { index: prevIndex } = prevProps
     if (index !== prevIndex) {
-      this.recenter()
-      this.animate()
-      this.fadeOut()
+      this.reset()
     }
   }
 
@@ -132,5 +133,3 @@ const MapDiv = styled.div<MapDivProps>`
     animation-timing-function: ease-out;
   }
 `
-
-export default CityMap

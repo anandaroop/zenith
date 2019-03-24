@@ -21,7 +21,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "cities": "curl https://raw.githubusercontent.com/artsy/metaphysics/master/src/schema/city/cityDataSortedByDisplayPreference.json -o src/cities.json"
+    "cities": "curl https://raw.githubusercontent.com/artsy/metaphysics/master/src/schema/city/cityDataSortedByDisplayPreference.json -o src/data/cities.json"
   },
   "eslintConfig": {
     "extends": "react-app"

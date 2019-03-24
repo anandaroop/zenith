@@ -1,5 +1,5 @@
 import * as React from 'react'
-import cities from './cities.json'
+import cities from '../data/cities.json'
 import { CityTitle } from './CityTitle'
 import { CityMap } from './CityMap'
 
@@ -13,7 +13,7 @@ interface State {
   currentIndex: number
 }
 
-export class AnimatedMap extends React.Component<Props, State> {
+export class AnimatedMapAndTitles extends React.Component<Props, State> {
   state = {
     currentIndex: 0
   }

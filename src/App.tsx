@@ -1,14 +1,14 @@
 import * as React from 'react'
 import styled, { ThemeProvider } from 'styled-components'
 import { theme } from './theme'
-import { AnimatedMap } from './AnimatedMap'
+import { AnimatedMapAndTitles } from './components/AnimatedMapAndTitles'
 
 class App extends React.Component {
   render() {
     return (
       <ThemeProvider theme={theme}>
         <Main>
-          <AnimatedMap duration={20000} />
+          <AnimatedMapAndTitles duration={20000} />
         </Main>
       </ThemeProvider>
     )

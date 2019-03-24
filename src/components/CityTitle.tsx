@@ -1,7 +1,7 @@
 import * as React from 'react'
 import styled, { keyframes } from 'styled-components'
-import cities from './cities.json'
-import { fullScreen, theme } from './theme'
+import cities from '../data/cities.json'
+import { fullScreen } from '../theme'
 
 interface Props {
   /** index of a city in the cities array */
@@ -22,18 +22,18 @@ export class CityTitle extends React.Component<Props, State> {
   }
 
   componentDidMount() {
-    this.animate()
+    this.animateFades()
   }
 
   componentDidUpdate(prevProps: Props) {
     const { index } = this.props
     const { index: prevIndex } = prevProps
     if (index !== prevIndex) {
-      this.animate()
+      this.animateFades()
     }
   }
 
-  animate = () => {
+  animateFades = () => {
     this.titleDiv.current!.classList.add('animating')
     setTimeout(() => {
       this.titleDiv.current!.classList.remove('animating')
