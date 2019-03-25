@@ -2,6 +2,7 @@ import * as React from 'react'
 import cities from '../data/cities.json'
 import { CityTitle } from './CityTitle'
 import { CityMap } from './CityMap'
+import { Progress } from './Progress'
 
 interface Props {
   /** how many milliseconds to spend in each city  */
@@ -39,6 +40,7 @@ export class AnimatedMapAndTitles extends React.Component<Props, State> {
       <React.Fragment>
         <CityTitle {...props} />
         <CityMap {...props} />
+        <Progress index={currentIndex} />
       </React.Fragment>
     )
   }
