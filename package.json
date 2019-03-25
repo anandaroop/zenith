@@ -22,7 +22,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "cities": "curl https://raw.githubusercontent.com/artsy/metaphysics/master/src/schema/city/cityDataSortedByDisplayPreference.json -o src/data/cities.json"
+    "cities": "curl https://raw.githubusercontent.com/artsy/metaphysics/master/src/schema/city/cityDataSortedByDisplayPreference.json -o src/data/cities.json",
+    "open": "open https://naughty-mcclintock-03d4a2.netlify.com"
   },
   "eslintConfig": {
     "extends": "react-app"
