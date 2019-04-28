@@ -11,7 +11,7 @@ export class Progress extends React.Component<Props> {
     return (
       <Dots>
         {cities.map((_city, i) => (
-          <Dot selected={i === this.props.index} />
+          <Dot key={i} selected={i === this.props.index} />
         ))}
       </Dots>
     )
